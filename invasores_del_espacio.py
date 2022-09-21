@@ -15,14 +15,15 @@ pygame.display.set_icon(icono)
 #crear jugador
 img_player = pygame.image.load("spaceship.png")
 player_x = 368
-player_y = 530
+player_y = 500
 player_x_cambio = 0
 
 #crear enemigo
 img_enemy = pygame.image.load("enemy.png")
 enemy_x = random.randint(0,734)
 enemy_y = random.randint(50, 200)
-enemy_x_cambio = 0
+enemy_x_cambio = 0.3
+enemy_y_cambio = 50
 
 #funcion del jugador
 def player(x, y):
@@ -56,11 +57,21 @@ while se_ejecuta:
                 player_x_cambio = 0
     #movimiento del jugador
     player_x += player_x_cambio
-    #mantener entre los bordes
+    #mantener entre los bordes al jugador
     if player_x <= 0:
         player_x = 0
     elif player_x >= 734:
         player_x = 734
+    
+    #movimiento del enemigo
+    enemy_x += enemy_x_cambio
+    #mantener entre los bordes al enemigo
+    if enemy_x <= 0:
+        enemy_x_cambio = 0.3
+        enemy_y += enemy_y_cambio
+    elif enemy_x >= 734:
+        enemy_x_cambio = -0.3
+        enemy_y += enemy_y_cambio
     
     enemy(enemy_x,enemy_y)   
     player(player_x,player_y)
