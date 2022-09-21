@@ -23,24 +23,34 @@ def player(x, y):
     
 #mantiene abierto el juego hasta que se cierre
 se_ejecuta = True
-
+#iteracion de eventos
 while se_ejecuta:
     pantalla.fill((77,0,255))
     
+    #cerrar el juego
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             se_ejecuta = False
-        
+       
+        #chequea si se presiona una flecha 
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_LEFT:
                 player_x_cambio -= 0.3
             if evento.key == pygame.K_RIGHT:
                 player_x_cambio = 0.3
         
+        #chequea si suelta las flechas
         if evento.type == pygame.KEYUP:
             if evento.key == pygame.K_RIGHT or evento.key == pygame.K_LEFT:
                 player_x_cambio = 0
-    
+    #movimiento del jugador
     player_x += player_x_cambio
+    #mantener entre los bordes
+    if player_x <= 0:
+        player_x = 0
+    elif player_x >= 734:
+        player_x = 734
+        
     player(player_x,player_y)
+    #actualiza
     pygame.display.update()
