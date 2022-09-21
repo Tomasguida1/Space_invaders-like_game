@@ -1,4 +1,5 @@
 import pygame
+import random
 
 #inicializa pygame
 pygame.init()
@@ -17,9 +18,19 @@ player_x = 368
 player_y = 530
 player_x_cambio = 0
 
+#crear enemigo
+img_enemy = pygame.image.load("enemy.png")
+enemy_x = random.randint(0,734)
+enemy_y = random.randint(50, 200)
+enemy_x_cambio = 0
+
 #funcion del jugador
 def player(x, y):
     pantalla.blit(img_player,(x, y))
+    
+#funcion del enemigo
+def enemy(x, y):
+    pantalla.blit(img_enemy,(x, y))
     
 #mantiene abierto el juego hasta que se cierre
 se_ejecuta = True
@@ -50,7 +61,8 @@ while se_ejecuta:
         player_x = 0
     elif player_x >= 734:
         player_x = 734
-        
+    
+    enemy(enemy_x,enemy_y)   
     player(player_x,player_y)
     #actualiza
     pygame.display.update()
