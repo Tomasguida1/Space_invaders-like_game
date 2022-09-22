@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+from pygame import mixer
 
 #inicializa pygame
 pygame.init()
@@ -13,6 +14,11 @@ pygame.display.set_caption("invasores del espacio")
 icono = pygame.image.load("alien.png")
 pygame.display.set_icon(icono)
 fondo = pygame.image.load("fondo.jpg")
+
+#background music
+mixer.music.load("battleground.mp3")
+mixer.music.set_volume(0.3)
+mixer.music.play(-1)
 
 #crear jugador
 img_player = pygame.image.load("spaceship.png")
@@ -95,6 +101,9 @@ while se_ejecuta:
             if evento.key == pygame.K_RIGHT:
                 player_x_cambio = 0.5
             if evento.key == pygame.K_SPACE:
+                shoot = mixer.Sound("shoot.wav")
+                shoot.set_volume(0.2)
+                shoot.play()
                 if not visible_bullet:
                     bullet_x = player_x
                     bullet(bullet_x, bullet_y)
@@ -124,6 +133,9 @@ while se_ejecuta:
             #colision
         colision = colisiones(enemy_x[e], enemy_y[e], bullet_x, bullet_y)
         if colision:
+            explotion = mixer.Sound("boom.wav")
+            explotion.set_volume(0.2)
+            explotion.play()
             bullet_y = 500
             visible_bullet = False
             score += 1
