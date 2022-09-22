@@ -45,7 +45,15 @@ visible_bullet = False
 
 #score
 score = 0
+fuente = pygame.font.Font("freesansbold.ttf",32)
+text_x =10
+text_y= 10
 
+#show score
+def show_score(x,y):
+
+    text = fuente.render(f"SCORE: {score}", True, (255,255,255))
+    pantalla.blit(text, (x,y))
 #funcion del jugador
 def player(x, y):
     pantalla.blit(img_player,(x, y))
@@ -119,7 +127,6 @@ while se_ejecuta:
             bullet_y = 500
             visible_bullet = False
             score += 1
-            print(score)
             enemy_x[e] = random.randint(0,734)
             enemy_y[e]= random.randint(50, 200)
         enemy(enemy_x[e],enemy_y[e], e)  
@@ -136,5 +143,6 @@ while se_ejecuta:
     
      
     player(player_x,player_y)
+    show_score(text_x, text_y)
     #actualiza
     pygame.display.update()
