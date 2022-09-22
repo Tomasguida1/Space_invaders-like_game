@@ -92,6 +92,9 @@ while se_ejecuta:
         enemy_y += enemy_y_cambio
     
     #movimiento bala
+    if bullet_y <= -64:
+        bullet_y = 500
+        visible_bullet = False
     if visible_bullet:
         bullet(player_x, bullet_y)
         bullet_y -= bullet_y_cambio
