@@ -46,7 +46,7 @@ img_bullet = pygame.image.load("missile.png")
 bullet_x = 0
 bullet_y = 500
 bullet_x_cambio = 0
-bullet_y_cambio = 1
+bullet_y_cambio = 2
 visible_bullet = False
 
 #score
@@ -55,6 +55,12 @@ fuente = pygame.font.Font("freesansbold.ttf",32)
 text_x =10
 text_y= 10
 
+#game ending
+final_font = pygame.font.Font("freesansbold.ttf",100)
+
+def final():
+    ending = final_font.render("GAME OVER", True, (255,0,0))
+    pantalla.blit(ending, (80,200))
 #show score
 def show_score(x,y):
 
@@ -97,9 +103,9 @@ while se_ejecuta:
         #chequea si se presiona una tecla 
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_LEFT:
-                player_x_cambio -= 0.5
+                player_x_cambio -= 1
             if evento.key == pygame.K_RIGHT:
-                player_x_cambio = 0.5
+                player_x_cambio = 1
             if evento.key == pygame.K_SPACE:
                 shoot = mixer.Sound("shoot.wav")
                 shoot.set_volume(0.2)
@@ -122,13 +128,20 @@ while se_ejecuta:
     
     #movimiento del enemigo
     for e in range(quantity):
+        
+        #game over
+        if enemy_y[e] > 490:
+            for k in range(quantity):
+                enemy_y[k] = 1000
+            final()
+            break
         enemy_x[e] += enemy_x_cambio[e]
     #mantener entre los bordes al enemigo
         if enemy_x[e] <= 0:
-            enemy_x_cambio[e] = 0.5
+            enemy_x_cambio[e] = 0.6
             enemy_y[e] += enemy_y_cambio[e]
         elif enemy_x[e] >= 734:
-            enemy_x_cambio[e] = -0.5
+            enemy_x_cambio[e] = -0.6
             enemy_y[e] += enemy_y_cambio[e]
             #colision
         colision = colisiones(enemy_x[e], enemy_y[e], bullet_x, bullet_y)
