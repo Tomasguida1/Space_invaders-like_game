@@ -26,6 +26,14 @@ enemy_y = random.randint(50, 200)
 enemy_x_cambio = 0.5
 enemy_y_cambio = 50
 
+#crear bala
+img_bullet = pygame.image.load("missile.png")
+bullet_x = 0
+bullet_y = 500
+bullet_x_cambio = 0
+bullet_y_cambio = 0.5
+visible_bullet = False
+
 #funcion del jugador
 def player(x, y):
     pantalla.blit(img_player,(x, y))
@@ -33,6 +41,12 @@ def player(x, y):
 #funcion del enemigo
 def enemy(x, y):
     pantalla.blit(img_enemy,(x, y))
+    
+#funcion disparo
+def bullet (x, y):
+    global visible_bullet
+    visible_bullet = True
+    pantalla.blit(img_bullet,(x + 16, y+10))
     
 #mantiene abierto el juego hasta que se cierre
 se_ejecuta = True
@@ -46,12 +60,14 @@ while se_ejecuta:
         if evento.type == pygame.QUIT:
             se_ejecuta = False
        
-        #chequea si se presiona una flecha 
+        #chequea si se presiona una tecla 
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_LEFT:
                 player_x_cambio -= 0.5
             if evento.key == pygame.K_RIGHT:
                 player_x_cambio = 0.5
+            if evento.key == pygame.K_SPACE:
+                bullet(player_x, bullet_y)
         
         #chequea si suelta las flechas
         if evento.type == pygame.KEYUP:
@@ -74,6 +90,11 @@ while se_ejecuta:
     elif enemy_x >= 734:
         enemy_x_cambio = -0.5
         enemy_y += enemy_y_cambio
+    
+    #movimiento bala
+    if visible_bullet:
+        bullet(player_x, bullet_y)
+        bullet_y -= bullet_y_cambio
     
     enemy(enemy_x,enemy_y)   
     player(player_x,player_y)
