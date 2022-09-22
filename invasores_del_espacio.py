@@ -35,6 +35,9 @@ bullet_x_cambio = 0
 bullet_y_cambio = 1
 visible_bullet = False
 
+#score
+score = 0
+
 #funcion del jugador
 def player(x, y):
     pantalla.blit(img_player,(x, y))
@@ -115,6 +118,10 @@ while se_ejecuta:
     if colision:
         bullet_y = 500
         visible_bullet = False
+        score += 1
+        print(score)
+        enemy_x = random.randint(0,734)
+        enemy_y = random.randint(50, 200)
     
     enemy(enemy_x,enemy_y)   
     player(player_x,player_y)
