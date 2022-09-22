@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 #inicializa pygame
 pygame.init()
@@ -31,7 +32,7 @@ img_bullet = pygame.image.load("missile.png")
 bullet_x = 0
 bullet_y = 500
 bullet_x_cambio = 0
-bullet_y_cambio = 0.5
+bullet_y_cambio = 1
 visible_bullet = False
 
 #funcion del jugador
@@ -47,6 +48,14 @@ def bullet (x, y):
     global visible_bullet
     visible_bullet = True
     pantalla.blit(img_bullet,(x + 16, y+10))
+
+#colisiones
+def colisiones(x_1, y_1, x_2, y_2):
+    distance = math.sqrt(math.pow(x_1-x_2, 2) + math.pow(y_2-y_1, 2))
+    if distance < 27:
+        return True
+    else:
+        return False
     
 #mantiene abierto el juego hasta que se cierre
 se_ejecuta = True
@@ -67,7 +76,9 @@ while se_ejecuta:
             if evento.key == pygame.K_RIGHT:
                 player_x_cambio = 0.5
             if evento.key == pygame.K_SPACE:
-                bullet(player_x, bullet_y)
+                if not visible_bullet:
+                    bullet_x = player_x
+                    bullet(bullet_x, bullet_y)
         
         #chequea si suelta las flechas
         if evento.type == pygame.KEYUP:
@@ -96,8 +107,14 @@ while se_ejecuta:
         bullet_y = 500
         visible_bullet = False
     if visible_bullet:
-        bullet(player_x, bullet_y)
+        bullet(bullet_x, bullet_y)
         bullet_y -= bullet_y_cambio
+    
+    #colision
+    colision = colisiones(enemy_x, enemy_y, bullet_x, bullet_y)
+    if colision:
+        bullet_y = 500
+        visible_bullet = False
     
     enemy(enemy_x,enemy_y)   
     player(player_x,player_y)
